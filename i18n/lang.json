@@ -1,0 +1,13 @@
+i18n.translate({
+    "af": {
+        "navhome": "HUIS TOE",
+        "navpage2": "Bladsy 2 (check Console for missing 'navpage1' message)",
+        "set-language": "Verander taal na Engels"
+    },
+    "en": {
+        "navhome": "HOME Test",
+        "navpage1": "Page One",
+        "navpage2": "Page Two",
+        "set-language": "Change Language to Afrikaans"
+    }
+});

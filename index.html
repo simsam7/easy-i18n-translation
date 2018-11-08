@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <!--Note the lang tag above-->
+    <head>
+        <link rel="shortcut icon" href="">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.3.0/milligram.min.css" media="all" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js" ></script>
+        <script src="js/i18translation.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <h3>i18n Translation Example</h3>
+        <ul class="nav">
+            <li><a id="test-compare" href="#" data-i18n="navhome" class="home">Home</a></li>
+            <li><a href="#" data-i18n="navpage1">Page 1</a></li>
+            <li><a href="#" data-i18n="navpage2">Page 2</a></li>
+        </ul>
+
+        <button id="set-lang" data-i18n="set-language">Set Language</button>
+        <button id="get-navhome">Compare 'navhome'</button>
+        <button id="get-home">Just Home</button>
+
+        <script>
+            $(document).ready(function () {
+                i18n.showMissing = true; // Show missing values, useful for populating language file - slows down execution time if true
+                i18n.exportJSON = true; // Access JSON values directly for specific elements
+                
+                // How to change the language dynamically, in this case a toggle
+                $("#set-lang").on("click", function () {
+                    if ($("html").attr("lang") === "en") {
+                        $("html").attr("lang", "af");
+                    } else {
+                        $("html").attr("lang", "en");
+                    }
+                    i18n.getLanguageTranslation("i18n/lang.json");
+                });
+                
+                // Use a filter to specify only elements with this class to be translated
+                $("#get-home").on("click", function () {
+                    // html lang toggle for testing
+                    if ($("html").attr("lang") === "en") {
+                        $("html").attr("lang", "af");
+                    } else {
+                        $("html").attr("lang", "en");
+                    }
+                    // Set filter to only translate elements with class = home
+                    i18n.filter = ".home";
+                    i18n.getLanguageTranslation("i18n/lang.json");
+                });
+                
+                // Do something like a language independent comparison between elements 
+                $("#get-navhome").on("click", function () {
+                    // Requires 'exportJSON' to be true. Useful for getting a specific element after loading e.g. 
+                    var jsonNavHome = i18n.data["af"]["navhome"];
+                    var valNavHome = $("#test-compare").text()
+                    if (jsonNavHome === valNavHome) {
+                        alert("'" + valNavHome + "' matches '" + jsonNavHome + "'");
+                    } else {
+                        alert("'" + valNavHome + "' doesn't match '" + jsonNavHome + "'");
+                    }
+                });
+            });
+            
+            $(window).on("load", function () {
+                // For immediate automatic translation after everything has been loaded 
+                //i18n.getLanguageTranslation("i18n/lang.json");
+            });
+        </script>
+
+    </body>
+
+</html>
